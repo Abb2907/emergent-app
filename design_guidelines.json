@@ -1,0 +1,143 @@
+{
+  "brand_identity": {
+    "name": "Aether Index",
+    "tagline": "The Ultimate AI Foundry",
+    "tone": "Futuristic, Premium, Developer-Centric, Authoritative",
+    "archetype": "The Architect + The Visionary",
+    "visual_theme": "Dark Futuristic with Neon Accents (Cyberpunk x Enterprise)"
+  },
+  "typography": {
+    "headings": {
+      "family": "\"Space Grotesk\", sans-serif",
+      "weights": ["500", "700"],
+      "usage": "All section titles, hero text, and major feature names.",
+      "letter_spacing": "tracking-tight"
+    },
+    "body": {
+      "family": "\"Inter\", sans-serif",
+      "weights": ["400", "500"],
+      "usage": "Paragraphs, card descriptions, navigation."
+    },
+    "code": {
+      "family": "\"JetBrains Mono\", monospace",
+      "usage": "Code snippets, terminal views, technical stats.",
+      "class": "font-mono"
+    },
+    "installation": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;700&display=swap');"
+  },
+  "colors": {
+    "background": {
+      "default": "#050505",
+      "paper": "#0A0A0A",
+      "subtle": "#121212"
+    },
+    "primary": {
+      "default": "#3B82F6",
+      "neon": "#60A5FA",
+      "glow": "0 0 20px rgba(59, 130, 246, 0.5)"
+    },
+    "accents": {
+      "violet": "#8B5CF6",
+      "cyan": "#06B6D4",
+      "teal_gradient": "from-cyan-500 to-blue-500"
+    },
+    "text": {
+      "primary": "#F8FAFC",
+      "secondary": "#94A3B8",
+      "muted": "#64748B"
+    },
+    "borders": {
+      "default": "rgba(255, 255, 255, 0.1)",
+      "active": "rgba(59, 130, 246, 0.5)"
+    },
+    "forbidden": ["#1B93A4", "#7351B7"]
+  },
+  "layout_strategies": {
+    "container": "max-w-7xl mx-auto px-6 sm:px-8 lg:px-12",
+    "spacing_scale": {
+      "section_gap": "py-24 or py-32",
+      "component_gap": "gap-8 or gap-12",
+      "internal_padding": "p-6 or p-8"
+    },
+    "grids": {
+      "bento_grid": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6",
+      "feature_card": "col-span-1 md:col-span-4 lg:col-span-4",
+      "hero_card": "col-span-1 md:col-span-8 lg:col-span-8"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-primary text-white hover:bg-primary/90 shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all duration-300 rounded-lg px-8 py-3 font-medium",
+      "secondary": "bg-white/5 border border-white/10 hover:bg-white/10 text-white backdrop-blur-sm transition-all duration-300 rounded-lg px-8 py-3",
+      "ghost": "text-zinc-400 hover:text-white transition-colors"
+    },
+    "cards": {
+      "style": "glass_morphism",
+      "classes": "bg-black/40 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all duration-300 group relative"
+    },
+    "badges": {
+      "style": "pill",
+      "classes": "px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20"
+    },
+    "inputs": {
+      "classes": "bg-black/50 border-white/10 focus:border-primary/50 focus:ring-1 focus:ring-primary/50 rounded-lg"
+    }
+  },
+  "visual_enhancers": {
+    "glassmorphism": {
+      "heavy": "bg-black/60 backdrop-blur-2xl border-b border-white/5",
+      "card": "bg-zinc-900/50 backdrop-blur-md border border-white/10"
+    },
+    "gradients": {
+      "text_gradient": "bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-zinc-500",
+      "brand_gradient": "bg-gradient-to-r from-blue-500 via-violet-500 to-cyan-500"
+    },
+    "effects": {
+      "glow": "shadow-[0_0_30px_-5px_rgba(59,130,246,0.3)]",
+      "noise": "url('/noise.png') opacity-5 fixed inset-0 pointer-events-none z-50 mix-blend-overlay"
+    }
+  },
+  "motion": {
+    "library": "framer-motion",
+    "default_transition": {
+      "duration": 0.5,
+      "ease": [0.22, 1, 0.36, 1]
+    },
+    "stagger_children": 0.1,
+    "hover_effects": "scale-105"
+  },
+  "assets": {
+    "image_urls": {
+      "hero_background": "https://images.pexels.com/photos/17485707/pexels-photo-17485707.png",
+      "neural_network_abstract": "https://images.pexels.com/photos/17483874/pexels-photo-17483874.png",
+      "coding_screen": "https://images.unsplash.com/photo-1640552435845-d65c23b75934",
+      "workspace_setup": "https://images.pexels.com/photos/33433724/pexels-photo-33433724.jpeg",
+      "ai_processor": "https://images.pexels.com/photos/30547566/pexels-photo-30547566.jpeg"
+    },
+    "libraries": {
+      "particles": "tsparticles",
+      "charts": "recharts",
+      "icons": "lucide-react"
+    }
+  },
+  "instructions_to_main_agent": [
+    "1. THEME: Enforce 'dark' class on the HTML element. No light mode toggle.",
+    "2. FONTS: Add the Google Fonts import to index.css immediately.",
+    "3. HERO: Use 'tsparticles' to create a moving network of nodes and lines in the hero background (color: #3B82F6, opacity: 0.5).",
+    "4. BORDERS: Never use a solid grey border. Use 'border-white/10' or 'border-white/5' for subtle separation.",
+    "5. GRID: Use the 'Bento Grid' layout for the Resources/Repositories section. Vary card sizes (span-1 vs span-2).",
+    "6. LISTS: For lists of tools/books, use a dense layout with small icons and clean typography. Avoid bulky cards for simple list items.",
+    "7. GRADIENTS: Use the 'brand_gradient' only for key accents (buttons, active states, text highlights). Do not use it for full backgrounds.",
+    "8. SHADCN: When using shadcn components, override their default 'bg-background' with 'bg-black/50 backdrop-blur-md' to maintain the glass feel.",
+    "9. DATA-TESTID: Add 'data-testid' to all interactive elements (buttons, inputs, links).",
+    "10. COMMUNITY: For the Discord section, use a 'glow' effect around the card to make it pop."
+  ],
+  "universal_guidelines": [
+    "Don't make generic centered layouts.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use glass-morphism effects with backdrop filters.",
+    "Every interaction needs micro-animations - hover states, transitions.",
+    "Use 2-3x more spacing than feels comfortable.",
+    "Add 'data-testid' to all interactive elements."
+  ]
+}

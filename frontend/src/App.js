@@ -1,54 +1,94 @@
-import { useEffect } from "react";
-import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import "./App.css";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import LearningPaths from "./components/LearningPaths";
+import ResourcesSection from "./components/ResourcesSection";
+import CommunitySection from "./components/CommunitySection";
+import Footer from "./components/Footer";
+import Dashboard from "./components/Dashboard";
+import ResourcesPage from "./components/ResourcesPage";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
+// ============================================================
+// AUTH CALLBACK
+// ============================================================
+function AuthCallback({ setUser }) {
+  const navigate = useNavigate();
+  const hasProcessed = useRef(false);
 
   useEffect(() => {
-    helloWorldApi();
-  }, []);
+    if (hasProcessed.current) return;
+    hasProcessed.current = true;
+
+    const hash = window.location.hash;
+    const match = hash.match(/session_id=([^&]+)/);
+    if (!match) { navigate("/"); return; }
+    const sessionId = match[1];
+
+    axios.post(`${API}/auth/session`, { session_id: sessionId }, { withCredentials: true })
+      .then((res) => {
+        setUser(res.data.user);
+        navigate("/dashboard", { state: { user: res.data.user } });
+      })
+      .catch(() => navigate("/"));
+  }, [navigate, setUser]);
 
   return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
-
-function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+    <div className="min-h-screen flex items-center justify-center" style={{ background: "#050505" }}>
+      <div className="text-center">
+        <div className="w-12 h-12 rounded-full brand-gradient-bg mx-auto mb-4 animate-pulse"></div>
+        <p className="text-zinc-400 font-medium" style={{ fontFamily: "'Space Grotesk', sans-serif" }}>
+          Signing you in...
+        </p>
+      </div>
     </div>
   );
 }
 
-export default App;
+// ============================================================
+// MAIN ROUTER
+// ============================================================
+function AppRouter() {
+  const location = useLocation();
+  const [user, setUser] = useState(null);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  // REMINDER: DO NOT HARDCODE THE URL, OR ADD ANY FALLBACKS OR REDIRECT URLS, THIS BREAKS THE AUTH
+  // Synchronously detect session_id in URL hash before any route renders
+  if (location.hash?.includes("session_id=")) {
+    return <AuthCallback setUser={setUser} />;
+  }
+
+  return (
+    <>
+      <Navbar user={user} setUser={setUser} authChecked={authChecked} setAuthChecked={setAuthChecked} />
+      <Routes>
+        <Route path="/" element={
+          <main>
+            <Hero />
+            <LearningPaths />
+            <ResourcesSection user={user} />
+            <CommunitySection />
+            <Footer />
+          </main>
+        } />
+        <Route path="/resources" element={<ResourcesPage user={user} />} />
+        <Route path="/dashboard" element={<Dashboard user={user} setUser={setUser} />} />
+      </Routes>
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </div>
+  );
+}

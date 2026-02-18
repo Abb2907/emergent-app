@@ -77,4 +77,5 @@ agenthub/agents/youtube/db
 .cache/
 
 # Mobile development
-android-sdk/ 
+android-sdk/ my_project.zip
+full_project_backup.zip

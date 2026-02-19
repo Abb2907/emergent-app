@@ -1,9 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Play, Book, Code } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/paths?search=${encodeURIComponent(searchQuery)}`);
+    } else {
+      navigate('/paths');
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <section className="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden bg-aether-dark">
       {/* Background Gradients */}
@@ -44,15 +61,18 @@ export const Hero: React.FC = () => {
               </div>
               <input 
                 type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Find a learning path..." 
                 className="flex-1 bg-transparent border-none outline-none px-4 text-white placeholder-gray-500 h-12"
               />
-              <Link 
-                to="/paths"
-                className="h-12 px-8 rounded-full bg-white text-black font-bold flex items-center justify-center hover:bg-gray-200 transition-colors"
+              <button 
+                onClick={handleSearch}
+                className="h-12 px-8 rounded-full bg-white text-black font-bold flex items-center justify-center hover:bg-gray-200 transition-colors cursor-pointer"
               >
                 Go
-              </Link>
+              </button>
             </div>
 
             {/* Social Proof / Stats */}
@@ -93,13 +113,14 @@ export const Hero: React.FC = () => {
                     className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-110 transition-transform duration-700 grayscale mix-blend-luminosity"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-                  <div className="absolute bottom-8 left-8">
+                  <div className="absolute bottom-8 left-8 pointer-events-none">
                      <span className="px-3 py-1 rounded-full bg-aether-primary/20 text-aether-primary text-xs font-bold uppercase mb-3 inline-block border border-aether-primary/20">
                         Featured Path
                      </span>
                      <h3 className="text-3xl font-display font-bold text-white mb-2">Agentic AI</h3>
                      <p className="text-gray-300 text-sm">Build autonomous systems that reason and act.</p>
                   </div>
+                  <Link to="/paths?search=agentic" className="absolute inset-0 z-20" aria-label="Explore Agentic AI" />
               </motion.div>
 
               {/* Secondary Card: Repositories (Vertical) */}
@@ -158,15 +179,20 @@ export const Hero: React.FC = () => {
               initial={{ x: 50, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="absolute bottom-24 -left-12 p-4 rounded-2xl bg-white text-black shadow-2xl z-20 flex items-center gap-4 pr-8"
+              className="absolute bottom-24 -left-12 z-20"
            >
-              <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center">
-                 <Play size={20} fill="currentColor" />
-              </div>
-              <div>
-                 <p className="font-bold text-sm">Start Learning</p>
-                 <p className="text-xs text-gray-500">Python for AI</p>
-              </div>
+              <Link 
+                to="/paths?search=python"
+                className="flex items-center gap-4 p-4 rounded-2xl bg-white text-black shadow-2xl pr-8 hover:bg-gray-100 transition-colors"
+              >
+                <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center">
+                  <Play size={20} fill="currentColor" />
+                </div>
+                <div>
+                  <p className="font-bold text-sm">Start Learning</p>
+                  <p className="text-xs text-gray-500">Python for AI</p>
+                </div>
+              </Link>
            </motion.div>
 
         </div>

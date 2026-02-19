@@ -1,14 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, ChevronRight, Clock, Lock, Star } from 'lucide-react';
 import { LEARNING_PATHS } from '../constants';
 import { Card } from './ui/Card';
 import { useAuth } from './contexts/AuthContext';
+import { useSearchParams } from 'react-router-dom';
 
 export const LearningPaths: React.FC = () => {
-  const [activePath, setActivePath] = useState<string | null>(LEARNING_PATHS[0].id);
+  const [searchParams] = useSearchParams();
   const { user, openSignIn, isEnrolled, enrollInPath, unlockBadge, badges } = useAuth();
   const [showConfetti, setShowConfetti] = useState(false);
+
+  // Logic to find initial path based on search param
+  const getInitialPath = () => {
+      const search = searchParams.get('search')?.toLowerCase();
+      if (!search) return LEARNING_PATHS[0].id;
+
+      // Find path matching title, description, or module topics
+      const found = LEARNING_PATHS.find(p => 
+          p.title.toLowerCase().includes(search) || 
+          p.description.toLowerCase().includes(search) ||
+          p.modules.some(m => m.title.toLowerCase().includes(search) || m.topics.some(t => t.toLowerCase().includes(search)))
+      );
+      
+      return found ? found.id : LEARNING_PATHS[0].id;
+  };
+
+  const [activePath, setActivePath] = useState<string | null>(getInitialPath());
+
+  // Update active path if URL changes
+  useEffect(() => {
+      const search = searchParams.get('search')?.toLowerCase();
+      if (search) {
+          const found = LEARNING_PATHS.find(p => 
+            p.title.toLowerCase().includes(search) || 
+            p.description.toLowerCase().includes(search) ||
+            p.modules.some(m => m.title.toLowerCase().includes(search) || m.topics.some(t => t.toLowerCase().includes(search)))
+          );
+          if (found) setActivePath(found.id);
+      }
+  }, [searchParams]);
 
   const handleEnroll = (pathId: string) => {
     if (!user) {
@@ -25,7 +56,6 @@ export const LearningPaths: React.FC = () => {
 
   const handleComplete = (pathId: string) => {
       // Logic to unlock specific badge based on path
-      // Simple mapping for demo:
       if (pathId === 'beginner') unlockBadge('1'); 
       if (pathId === 'intermediate') unlockBadge('2'); 
       if (pathId === 'advanced') unlockBadge('3'); 

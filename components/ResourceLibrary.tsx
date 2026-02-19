@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { RESOURCES } from '../constants';
 import { Card } from './ui/Card';
-import { Play, Book, FileText, Code, Monitor, Mic, Layers } from 'lucide-react';
+import { Play, Book, FileText, Monitor, Mic, Layers } from 'lucide-react';
 
 export const ResourceLibrary: React.FC = () => {
   const [activeTab, setActiveTab] = useState('All');
@@ -36,7 +36,7 @@ export const ResourceLibrary: React.FC = () => {
   };
 
   return (
-    <section id="library" className="py-20 bg-black/20">
+    <div className="pt-32 pb-20 min-h-screen">
       <div className="container mx-auto px-6">
          <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">The Knowledge Library</h2>
@@ -104,6 +104,6 @@ export const ResourceLibrary: React.FC = () => {
             </div>
         )}
       </div>
-    </section>
+    </div>
   );
 };

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Atom, Zap, BookOpen, Layers, Users, User, LogOut } from 'lucide-react';
+import { Menu, X, Atom, Zap, BookOpen, Layers, Users, User, LogOut, LayoutDashboard } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from './contexts/AuthContext';
+import { Link, useLocation } from 'react-router-dom';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user, openSignIn, logout } = useAuth();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -16,11 +18,12 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Paths', icon: <Zap size={18} />, href: '#paths' },
-    { name: 'Repos', icon: <Layers size={18} />, href: '#repos' },
-    { name: 'Library', icon: <BookOpen size={18} />, href: '#library' },
-    { name: 'Community', icon: <Users size={18} />, href: '#community' },
+    { name: 'Paths', icon: <Zap size={18} />, path: '/paths' },
+    { name: 'Repos', icon: <Layers size={18} />, path: '/repos' },
+    { name: 'Library', icon: <BookOpen size={18} />, path: '/library' },
   ];
+
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <nav
@@ -30,7 +33,7 @@ export const Navbar: React.FC = () => {
     >
       <div className="container mx-auto px-6 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-2 group cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+        <Link to="/" className="flex items-center gap-2 group cursor-pointer">
           <div className="relative">
             <Atom className="text-aether-primary animate-pulse-slow" size={32} />
             <div className="absolute inset-0 bg-aether-primary/20 blur-xl rounded-full" />
@@ -41,20 +44,24 @@ export const Navbar: React.FC = () => {
             </span>
             <span className="text-[10px] uppercase tracking-widest text-gray-400">The AI Foundry</span>
           </div>
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
-              className="flex items-center gap-2 text-sm font-medium text-gray-300 hover:text-white transition-colors relative group"
+              to={link.path}
+              className={`flex items-center gap-2 text-sm font-medium transition-colors relative group ${
+                isActive(link.path) ? 'text-white' : 'text-gray-300 hover:text-white'
+              }`}
             >
               {link.icon}
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-aether-primary transition-all group-hover:w-full" />
-            </a>
+              <span className={`absolute -bottom-1 left-0 h-0.5 bg-aether-primary transition-all duration-300 ${
+                isActive(link.path) ? 'w-full' : 'w-0 group-hover:w-full'
+              }`} />
+            </Link>
           ))}
           
           {user ? (
@@ -81,6 +88,13 @@ export const Navbar: React.FC = () => {
                       <p className="text-xs text-gray-500">Signed in as</p>
                       <p className="text-sm font-bold truncate">{user.email}</p>
                     </div>
+                    <Link 
+                      to="/dashboard"
+                      onClick={() => setUserMenuOpen(false)}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-white/5 flex items-center gap-2 hover:text-white"
+                    >
+                      <LayoutDashboard size={14} /> Dashboard
+                    </Link>
                     <button 
                       onClick={() => {
                         logout();
@@ -123,15 +137,15 @@ export const Navbar: React.FC = () => {
             className="md:hidden absolute top-full left-0 right-0 bg-aether-dark/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col gap-4 shadow-2xl"
           >
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.path}
                 className="flex items-center gap-3 text-lg font-medium text-gray-200 p-2 rounded-lg hover:bg-white/5"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.icon}
                 {link.name}
-              </a>
+              </Link>
             ))}
             
             {user ? (
@@ -145,6 +159,13 @@ export const Navbar: React.FC = () => {
                       <p className="text-xs text-gray-400">{user.email}</p>
                     </div>
                  </div>
+                 <Link 
+                    to="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="w-full py-2 px-2 rounded-lg hover:bg-white/5 text-gray-300 flex items-center gap-2"
+                 >
+                    <LayoutDashboard size={16} /> Dashboard
+                 </Link>
                  <button 
                     onClick={() => {
                         logout();

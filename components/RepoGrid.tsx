@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Star, GitBranch, ExternalLink, Filter } from 'lucide-react';
+import { Search, Star, GitBranch, ExternalLink } from 'lucide-react';
 import { REPOS } from '../constants';
 import { Card } from './ui/Card';
 import { Difficulty } from '../types';
@@ -20,7 +20,7 @@ export const RepoGrid: React.FC = () => {
   const categories = ['All', 'Beginner', 'Intermediate', 'Advanced', 'Frontier'];
 
   return (
-    <section id="repos" className="py-20 relative">
+    <div className="pt-32 pb-20 min-h-screen">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
           <div>
@@ -106,6 +106,6 @@ export const RepoGrid: React.FC = () => {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 };

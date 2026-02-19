@@ -1,33 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
+import { Home } from './components/Home';
 import { LearningPaths } from './components/LearningPaths';
 import { RepoGrid } from './components/RepoGrid';
 import { ResourceLibrary } from './components/ResourceLibrary';
-import { BadgeSystem } from './components/BadgeSystem';
-import { NewsletterCTA } from './components/NewsletterCTA';
+import { Dashboard } from './components/Dashboard';
 import { Footer } from './components/Footer';
 import { AuthProvider } from './components/contexts/AuthContext';
 import { SignInModal } from './components/SignInModal';
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 function App() {
   return (
-    <AuthProvider>
-      <div className="min-h-screen text-white selection:bg-aether-primary selection:text-white">
-        <Navbar />
-        <Hero />
-        <div className="relative">
-          <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-aether-dark to-transparent z-10 pointer-events-none" />
-          <LearningPaths />
-          <RepoGrid />
-          <ResourceLibrary />
-          <BadgeSystem />
-          <NewsletterCTA />
+    <Router>
+      <AuthProvider>
+        <div className="min-h-screen text-white selection:bg-aether-primary selection:text-white flex flex-col">
+          <ScrollToTop />
+          <Navbar />
+          
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/paths" element={<LearningPaths />} />
+              <Route path="/repos" element={<RepoGrid />} />
+              <Route path="/library" element={<ResourceLibrary />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Routes>
+          </main>
+
           <Footer />
+          <SignInModal />
         </div>
-        <SignInModal />
-      </div>
-    </AuthProvider>
+      </AuthProvider>
+    </Router>
   );
 }
 

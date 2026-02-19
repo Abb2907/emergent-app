@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Circle, ChevronRight, Clock, Award, Lock, Star } from 'lucide-react';
+import { CheckCircle2, ChevronRight, Clock, Lock, Star } from 'lucide-react';
 import { LEARNING_PATHS } from '../constants';
 import { Card } from './ui/Card';
 import { useAuth } from './contexts/AuthContext';
@@ -46,7 +46,7 @@ export const LearningPaths: React.FC = () => {
   }
 
   return (
-    <section id="paths" className="py-20 bg-black/20">
+    <div className="pt-32 pb-20 min-h-screen">
       <div className="container mx-auto px-6">
         <div className="mb-16 text-center">
           <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">Smart Learning Paths</h2>
@@ -222,6 +222,6 @@ export const LearningPaths: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };

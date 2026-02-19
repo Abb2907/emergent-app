@@ -76,9 +76,11 @@ export const RepoGrid: React.FC = () => {
               <p className="text-gray-400 text-sm mb-4 flex-1">{repo.description}</p>
               
               <div className="flex items-center gap-4 text-xs text-gray-500 font-medium mb-6">
-                <span className="flex items-center gap-1">
-                  <Star size={14} className="text-yellow-500" /> {repo.stars}
-                </span>
+                {repo.stars && (
+                  <span className="flex items-center gap-1">
+                    <Star size={14} className="text-yellow-500" /> {repo.stars}
+                  </span>
+                )}
                 <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10">
                   {repo.category}
                 </span>

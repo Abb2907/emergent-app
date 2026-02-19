@@ -35,13 +35,19 @@ export const Hero: React.FC = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="px-8 py-4 rounded-xl bg-gradient-to-r from-aether-primary to-aether-secondary text-white font-bold text-lg shadow-lg shadow-aether-primary/25 hover:shadow-aether-primary/40 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group">
+            <a 
+              href="#paths"
+              className="px-8 py-4 rounded-xl bg-gradient-to-r from-aether-primary to-aether-secondary text-white font-bold text-lg shadow-lg shadow-aether-primary/25 hover:shadow-aether-primary/40 transition-all hover:scale-105 active:scale-95 flex items-center gap-2 group cursor-pointer"
+            >
               Start Learning Path
               <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-lg transition-all backdrop-blur-sm flex items-center gap-2">
+            </a>
+            <a 
+              href="#library"
+              className="px-8 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-lg transition-all backdrop-blur-sm flex items-center gap-2 cursor-pointer"
+            >
               Explore Resources
-            </button>
+            </a>
           </div>
         </motion.div>
       </div>

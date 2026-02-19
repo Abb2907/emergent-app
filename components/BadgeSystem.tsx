@@ -1,9 +1,10 @@
 import React from 'react';
-import { BADGES } from '../constants';
-import { Card } from './ui/Card';
+import { useAuth } from './contexts/AuthContext';
 import { Trophy } from 'lucide-react';
 
 export const BadgeSystem: React.FC = () => {
+  const { badges } = useAuth();
+
   return (
     <div className="py-12 border-t border-white/5 bg-aether-dark">
       <div className="container mx-auto px-6">
@@ -18,7 +19,7 @@ export const BadgeSystem: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {BADGES.map((badge) => (
+          {badges.map((badge) => (
             <div 
                 key={badge.id}
                 className={`p-4 rounded-xl border flex flex-col items-center text-center transition-all ${

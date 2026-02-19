@@ -14,7 +14,7 @@ export interface Repo {
 export interface Resource {
   title: string;
   url: string;
-  type: 'YouTube' | 'Book' | 'Newsletter' | 'Course' | 'Article' | 'Paper' | 'Tool' | 'Guide' | 'Whitepaper' | 'Playlist' | 'Webinar' | 'Talk' | 'Engineering Blog' | 'Research Paper' | 'Documentation' | 'University Lecture' | 'Training' | 'Learning Path' | 'YouTube Live' | 'Book / PDF' | 'ML Projects' | 'ML Fundamentals' | 'ML Engineering' | 'Career Advice' | 'Evaluation' | 'Vector DBs' | 'Agent Memory' | 'Agent Design' | 'RAG' | 'Multi-Agent' | 'LLM Ops' | 'GenAI' | 'Data Science' | 'Computer Science' | 'Web Development' | 'Programming' | 'Statistics' | 'Statistics / Data Analysis' | 'Business / Tech' | 'Cloud / ML' | 'Business / AI' | 'Productivity / Tools' | 'Productivity' | 'Voice Agents' | 'Tools & Tips' | 'Creativity / Tools' | 'Automation';
+  type: string;
   category: string;
   desc: string;
   level: Difficulty;

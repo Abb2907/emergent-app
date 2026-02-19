@@ -12,7 +12,15 @@ from pathlib import Path
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime, timezone, timedelta
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+
+# Optional: LLM search enhancement
+try:
+    from emergentintegrations.llm.chat import LlmChat, UserMessage
+    HAS_LLM = True
+except ImportError:
+    HAS_LLM = False
+    LlmChat = None
+    UserMessage = None
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
@@ -351,7 +359,7 @@ async def search_resources(q: str = "", limit: int = 50):
     keywords = [q]
     try:
         llm_key = os.environ.get("EMERGENT_LLM_KEY")
-        if llm_key and len(q.strip()) > 3:
+        if HAS_LLM and llm_key and len(q.strip()) > 3:
             chat = LlmChat(
                 api_key=llm_key,
                 session_id=f"search_{uuid.uuid4().hex[:8]}",
@@ -448,3 +456,6 @@ app.add_middleware(
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

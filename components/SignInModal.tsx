@@ -27,6 +27,18 @@ export const SignInModal: React.FC = () => {
 
   return (
     <Modal isOpen={isSignInOpen} onClose={closeSignIn} title={activeTab === 'signin' ? 'Welcome Back' : 'Create Account'}>
+      {/* Autofill fix for dark mode */}
+      <style>{`
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus, 
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px #171717 inset !important;
+            -webkit-text-fill-color: white !important;
+            caret-color: white !important;
+        }
+      `}</style>
+
       <div className="flex justify-center mb-6">
         <div className="p-4 rounded-full bg-aether-primary/10 relative">
           <div className="absolute inset-0 bg-aether-primary/20 blur-xl rounded-full" />
@@ -56,49 +68,49 @@ export const SignInModal: React.FC = () => {
       <form onSubmit={handleSubmit} className="space-y-4">
         {activeTab === 'signup' && (
           <div>
-            <label className="block text-sm font-medium text-gray-400 mb-1">Name</label>
+            <label className="block text-sm font-medium text-gray-400 mb-1.5">Name</label>
             <input
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-aether-primary focus:outline-none text-white transition-colors placeholder-gray-600"
+              className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 focus:border-aether-primary focus:outline-none text-white transition-colors placeholder-gray-500"
               placeholder="Your full name"
             />
           </div>
         )}
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-1">Email</label>
+          <label className="block text-sm font-medium text-gray-400 mb-1.5">Email</label>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-aether-primary focus:outline-none text-white transition-colors placeholder-gray-600"
+            className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 focus:border-aether-primary focus:outline-none text-white transition-colors placeholder-gray-500"
             placeholder="you@example.com"
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-400 mb-1">Password</label>
+          <label className="block text-sm font-medium text-gray-400 mb-1.5">Password</label>
           <input
             type="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 focus:border-aether-primary focus:outline-none text-white transition-colors placeholder-gray-600"
+            className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 focus:border-aether-primary focus:outline-none text-white transition-colors placeholder-gray-500"
             placeholder="••••••••"
           />
         </div>
 
         <button
           type="submit"
-          className="w-full py-3 rounded-lg bg-gradient-to-r from-aether-primary to-aether-secondary font-bold text-white mt-2 hover:shadow-lg hover:shadow-aether-primary/25 transition-all active:scale-95"
+          className="w-full py-3.5 rounded-lg bg-gradient-to-r from-aether-primary to-aether-secondary font-bold text-white mt-4 hover:shadow-lg hover:shadow-aether-primary/25 transition-all active:scale-95"
         >
           {activeTab === 'signin' ? 'Sign In' : 'Create Account'}
         </button>
       </form>
 
-      <div className="relative my-6">
+      <div className="relative my-8">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-white/10"></div>
         </div>
@@ -111,20 +123,20 @@ export const SignInModal: React.FC = () => {
         <button 
           type="button"
           onClick={() => handleSocialLogin('github')}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 rounded-lg hover:bg-white/5 transition-colors text-sm font-medium"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 rounded-lg hover:bg-white/5 transition-colors text-sm font-medium text-gray-300 hover:text-white"
         >
           <Github size={18} /> GitHub
         </button>
         <button 
           type="button"
           onClick={() => handleSocialLogin('google')}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 rounded-lg hover:bg-white/5 transition-colors text-sm font-medium"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 rounded-lg hover:bg-white/5 transition-colors text-sm font-medium text-gray-300 hover:text-white"
         >
           <Mail size={18} /> Google
         </button>
       </div>
 
-      <p className="mt-6 text-center text-xs text-gray-500">
+      <p className="mt-8 text-center text-xs text-gray-500">
         By continuing, you agree to access the knowledge of the future.
       </p>
     </Modal>

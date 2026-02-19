@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
@@ -30,12 +30,7 @@ export default function Dashboard({ user, setUser }) {
   const [completedResources, setCompletedResources] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (!user) return;
-    loadData();
-  }, [user]);
-
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     setLoading(true);
     try {
       const [bRes, uRes] = await Promise.all([
@@ -54,7 +49,12 @@ export default function Dashboard({ user, setUser }) {
       }
     } catch { }
     setLoading(false);
-  };
+  }, [setUser]);
+
+  useEffect(() => {
+    if (!user) return;
+    loadData();
+  }, [user, loadData]);
 
   const handleLogout = async () => {
     await axios.post(`${API}/auth/logout`, {}, { withCredentials: true });

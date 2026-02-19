@@ -7,7 +7,7 @@ import {
   BookOpen, Newspaper, ChevronDown
 } from "lucide-react";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : '/api';
 
 const TYPE_CONFIG = [
   { key: "all", label: "All Resources" },

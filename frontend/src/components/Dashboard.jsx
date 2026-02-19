@@ -6,7 +6,7 @@ import {
   User, Star, BookOpen, LogOut, Zap
 } from "lucide-react";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : '/api';
 
 const BADGE_CONFIG = {
   "ML Initiate": { color: "#22c55e", desc: "Completed first resource", icon: "🌱" },

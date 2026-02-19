@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/build",
+  "framework": "create-react-app",
+  "python": {
+    "version": "3.11"
+  },
+  "env": {
+    "MONGO_URL": "@mongo_url",
+    "DB_NAME": "test_database",
+    "CORS_ORIGINS": "*",
+    "EMERGENT_LLM_KEY": "@emergent_llm_key"
+  },
+  "functions": {
+    "api/**/*.py": {
+      "runtime": "python3.11"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*.py"
+    }
+  ]
+}

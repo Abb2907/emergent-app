@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { Search, Menu, X, BookOpen, Github, LayoutDashboard, Users, ChevronRight } from "lucide-react";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : '/api';
 
 export default function Navbar({ user, setUser, authChecked, setAuthChecked }) {
   const navigate = useNavigate();

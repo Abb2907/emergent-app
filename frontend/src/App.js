@@ -11,7 +11,7 @@ import Footer from "./components/Footer";
 import Dashboard from "./components/Dashboard";
 import ResourcesPage from "./components/ResourcesPage";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : '/api';
 
 // ============================================================
 // AUTH CALLBACK

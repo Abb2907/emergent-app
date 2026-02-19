@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ExternalLink, Github, Star, BookOpen, BookmarkPlus, BookmarkCheck, ArrowRight, PlayCircle, FileText, Newspaper } from "lucide-react";
 
-const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+const API = process.env.REACT_APP_BACKEND_URL ? `${process.env.REACT_APP_BACKEND_URL}/api` : '/api';
 
 const TAB_CONFIG = [
   { key: "all", label: "All" },

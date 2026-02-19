@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Play, Book, Code } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from './contexts/AuthContext';
 
 export const Hero: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const { user, badges } = useAuth();
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -20,6 +22,16 @@ export const Hero: React.FC = () => {
       handleSearch();
     }
   };
+
+  // Calculate actual progress based on unlocked badges
+  const calculateProgress = () => {
+    if (!user) return 0;
+    const total = badges.length;
+    const unlocked = badges.filter(b => b.unlocked).length;
+    return total === 0 ? 0 : Math.round((unlocked / total) * 100);
+  };
+
+  const progress = calculateProgress();
 
   return (
     <section className="relative min-h-screen pt-32 pb-20 flex flex-col justify-center overflow-hidden bg-aether-dark">
@@ -166,12 +178,20 @@ export const Hero: React.FC = () => {
               className="absolute top-12 -right-12 w-48 p-4 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/10 shadow-2xl z-20"
            >
               <div className="flex items-center justify-between mb-2">
-                 <span className="text-xs text-gray-400">Weekly Progress</span>
-                 <span className="text-xs font-bold text-green-400">+24%</span>
+                 <span className="text-xs text-gray-400">Total Progress</span>
+                 <span className={`text-xs font-bold ${progress > 0 ? 'text-green-400' : 'text-gray-500'}`}>
+                    {progress > 0 ? '+' : ''}{progress}%
+                 </span>
               </div>
               <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                 <div className="h-full w-[75%] bg-gradient-to-r from-aether-primary to-aether-secondary" />
+                 <motion.div 
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                    className="h-full bg-gradient-to-r from-aether-primary to-aether-secondary" 
+                 />
               </div>
+              {!user && <p className="text-[10px] text-gray-500 mt-2 text-right">Sign in to track</p>}
            </motion.div>
 
            {/* Floating Widget 2 */}

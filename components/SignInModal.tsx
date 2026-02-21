@@ -4,25 +4,35 @@ import { Modal } from './ui/Modal';
 import { Atom, Github, Mail } from 'lucide-react';
 
 export const SignInModal: React.FC = () => {
-  const { isSignInOpen, closeSignIn, login } = useAuth();
+  const { isSignInOpen, closeSignIn, login, loginWithEmail, signupWithEmail } = useAuth();
   const [activeTab, setActiveTab] = useState<'signin' | 'signup'>('signin');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      // Mock login - in a real app this would call an API
-      // If signing up, we'd use the provided name, else default to 'User'
-      const displayName = name || email.split('@')[0];
-      login(displayName, email);
-    }
+  const handleSocialLogin = (provider: 'github' | 'google') => {
+    login(provider);
   };
 
-  const handleSocialLogin = (provider: string) => {
-    // Mock social login
-    login('Social User', 'user@example.com');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      if (activeTab === 'signin') {
+        await loginWithEmail(email, password);
+      } else {
+        await signupWithEmail(name, email, password);
+      }
+      closeSignIn();
+    } catch (err) {
+      setError('Authentication failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -48,7 +58,7 @@ export const SignInModal: React.FC = () => {
 
       <div className="flex bg-white/5 p-1 rounded-lg mb-6">
         <button
-          onClick={() => setActiveTab('signin')}
+          onClick={() => { setActiveTab('signin'); setError(''); }}
           className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
             activeTab === 'signin' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'
           }`}
@@ -56,7 +66,7 @@ export const SignInModal: React.FC = () => {
           Sign In
         </button>
         <button
-          onClick={() => setActiveTab('signup')}
+          onClick={() => { setActiveTab('signup'); setError(''); }}
           className={`flex-1 py-2 text-sm font-medium rounded-md transition-all ${
             activeTab === 'signup' ? 'bg-white/10 text-white shadow-sm' : 'text-gray-400 hover:text-white'
           }`}
@@ -66,6 +76,12 @@ export const SignInModal: React.FC = () => {
       </div>
       
       <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm text-center">
+            {error}
+          </div>
+        )}
+        
         {activeTab === 'signup' && (
           <div>
             <label className="block text-sm font-medium text-gray-400 mb-1.5">Name</label>
@@ -104,9 +120,10 @@ export const SignInModal: React.FC = () => {
 
         <button
           type="submit"
-          className="w-full py-3.5 rounded-lg bg-gradient-to-r from-aether-primary to-aether-secondary font-bold text-white mt-4 hover:shadow-lg hover:shadow-aether-primary/25 transition-all active:scale-95"
+          disabled={loading}
+          className="w-full py-3.5 rounded-lg bg-gradient-to-r from-aether-primary to-aether-secondary font-bold text-white mt-4 hover:shadow-lg hover:shadow-aether-primary/25 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {activeTab === 'signin' ? 'Sign In' : 'Create Account'}
+          {loading ? 'Processing...' : (activeTab === 'signin' ? 'Sign In' : 'Create Account')}
         </button>
       </form>
 
@@ -119,24 +136,7 @@ export const SignInModal: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
-        <button 
-          type="button"
-          onClick={() => handleSocialLogin('github')}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 rounded-lg hover:bg-white/5 transition-colors text-sm font-medium text-gray-300 hover:text-white"
-        >
-          <Github size={18} /> GitHub
-        </button>
-        <button 
-          type="button"
-          onClick={() => handleSocialLogin('google')}
-          className="flex items-center justify-center gap-2 px-4 py-2.5 border border-white/10 rounded-lg hover:bg-white/5 transition-colors text-sm font-medium text-gray-300 hover:text-white"
-        >
-          <Mail size={18} /> Google
-        </button>
-      </div>
-
-      <p className="mt-8 text-center text-xs text-gray-500">
+      <p className="mt-6 text-center text-xs text-gray-500">
         By continuing, you agree to access the knowledge of the future.
       </p>
     </Modal>

@@ -1,6 +1,123 @@
 import { Repo, Resource, LearningPath, Badge } from './types';
 
 export const REPOS: Repo[] = [
+    {
+      id: "Avik-Jain/100-Days-Of-ML-Code",
+      url: "https://github.com/Avik-Jain/100-Days-Of-ML-Code",
+      name: "100 Days Of ML Code",
+      category: "Machine Learning",
+      level: "Beginner",
+      description: "A comprehensive 100-day plan to learn machine learning from scratch.",
+      starter: false
+    },
+    {
+      id: "owainlewis/awesome-artificial-intelligence",
+      url: "https://github.com/owainlewis/awesome-artificial-intelligence",
+      name: "Awesome Artificial Intelligence",
+      category: "Resources",
+      level: "Beginner",
+      description: "A curated list of awesome Artificial Intelligence (AI) courses, books, video lectures and papers.",
+      starter: false
+    },
+    {
+      id: "ashishps1/learn-ai-engineering",
+      url: "https://github.com/ashishps1/learn-ai-engineering",
+      name: "Learn AI Engineering",
+      category: "Engineering",
+      level: "Intermediate",
+      description: "Resources and roadmaps for learning AI engineering.",
+      starter: false
+    },
+    {
+      id: "promptslab/Awesome-Prompt-Engineering",
+      url: "https://github.com/promptslab/Awesome-Prompt-Engineering",
+      name: "Awesome Prompt Engineering",
+      category: "Prompt Engineering",
+      level: "Beginner",
+      description: "A curated list of awesome prompt engineering resources, tools, and papers.",
+      starter: false
+    },
+    {
+      id: "snwfdhmp/awesome-gpt-prompt-engineering",
+      url: "https://github.com/snwfdhmp/awesome-gpt-prompt-engineering",
+      name: "Awesome GPT Prompt Engineering",
+      category: "Prompt Engineering",
+      level: "Beginner",
+      description: "A curated list of awesome resources for GPT prompt engineering.",
+      starter: false
+    },
+    {
+      id: "NirDiamant/Prompt_Engineering",
+      url: "https://github.com/NirDiamant/Prompt_Engineering",
+      name: "Prompt Engineering",
+      category: "Prompt Engineering",
+      level: "Intermediate",
+      description: "Prompt engineering resources and guides.",
+      starter: false
+    },
+    {
+      id: "brexhq/prompt-engineering",
+      url: "https://github.com/brexhq/prompt-engineering",
+      name: "Prompt Engineering (Brex)",
+      category: "Prompt Engineering",
+      level: "Intermediate",
+      description: "Prompt engineering resources and best practices from Brex.",
+      starter: false
+    },
+    {
+      id: "anthropics/prompt-eng-interactive-tutorial",
+      url: "https://github.com/anthropics/prompt-eng-interactive-tutorial",
+      name: "Prompt Engineering Interactive Tutorial",
+      category: "Prompt Engineering",
+      level: "Beginner",
+      description: "Interactive tutorial for learning prompt engineering.",
+      starter: false
+    },
+    {
+      id: "f/prompts.chat",
+      url: "https://github.com/f/prompts.chat",
+      name: "Prompts Chat",
+      category: "Prompt Engineering",
+      level: "Beginner",
+      description: "A collection of prompts for chatbots and LLMs.",
+      starter: false
+    },
+    {
+      id: "openai/openai-cookbook",
+      url: "https://github.com/openai/openai-cookbook",
+      name: "OpenAI Cookbook",
+      category: "LLM Foundations",
+      level: "Beginner",
+      description: "Example code and guides for accomplishing common tasks with the OpenAI API.",
+      starter: false
+    },
+    {
+      id: "jamiepine/voicebox",
+      url: "https://github.com/jamiepine/voicebox",
+      name: "Voicebox",
+      category: "Voice Agents",
+      level: "Intermediate",
+      description: "Voicebox: open-source voice AI tools and demos.",
+      starter: false
+    },
+    {
+      id: "sickn33/antigravity-awesome-skills",
+      url: "https://github.com/sickn33/antigravity-awesome-skills",
+      name: "Antigravity Awesome Skills",
+      category: "Resources",
+      level: "Beginner",
+      description: "A curated list of awesome skills for AI and beyond.",
+      starter: false
+    },
+    {
+      id: "roadmap.sh/prompt-engineering",
+      url: "https://roadmap.sh/prompt-engineering",
+      name: "Prompt Engineering Roadmap",
+      category: "Prompt Engineering",
+      level: "Beginner",
+      description: "Structured roadmap for learning prompt engineering.",
+      starter: false
+    },
   {
     id: "microsoft/generative-ai-for-beginners",
     url: "https://github.com/microsoft/generative-ai-for-beginners",
@@ -616,6 +733,190 @@ export const REPOS: Repo[] = [
 ];
 
 export const RESOURCES: Resource[] = [
+    {
+      "title": "100 Days Of ML Code (GitHub)",
+      "url": "https://github.com/Avik-Jain/100-Days-Of-ML-Code",
+      "type": "GitHub",
+      "category": "Machine Learning",
+      "desc": "A comprehensive 100-day plan to learn machine learning from scratch.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Awesome Artificial Intelligence (GitHub)",
+      "url": "https://github.com/owainlewis/awesome-artificial-intelligence",
+      "type": "GitHub",
+      "category": "Resources",
+      "desc": "A curated list of awesome Artificial Intelligence (AI) courses, books, video lectures and papers.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Learn AI Engineering (GitHub)",
+      "url": "https://github.com/ashishps1/learn-ai-engineering",
+      "type": "GitHub",
+      "category": "Engineering",
+      "desc": "Resources and roadmaps for learning AI engineering.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "Awesome Prompt Engineering (GitHub)",
+      "url": "https://github.com/promptslab/Awesome-Prompt-Engineering",
+      "type": "GitHub",
+      "category": "Prompt Engineering",
+      "desc": "A curated list of awesome prompt engineering resources, tools, and papers.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Awesome GPT Prompt Engineering (GitHub)",
+      "url": "https://github.com/snwfdhmp/awesome-gpt-prompt-engineering",
+      "type": "GitHub",
+      "category": "Prompt Engineering",
+      "desc": "A curated list of awesome resources for GPT prompt engineering.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Prompt Engineering (GitHub)",
+      "url": "https://github.com/NirDiamant/Prompt_Engineering",
+      "type": "GitHub",
+      "category": "Prompt Engineering",
+      "desc": "Prompt engineering resources and guides.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "Prompt Engineering (Brex, GitHub)",
+      "url": "https://github.com/brexhq/prompt-engineering",
+      "type": "GitHub",
+      "category": "Prompt Engineering",
+      "desc": "Prompt engineering resources and best practices from Brex.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "Prompt Engineering Interactive Tutorial (GitHub)",
+      "url": "https://github.com/anthropics/prompt-eng-interactive-tutorial",
+      "type": "GitHub",
+      "category": "Prompt Engineering",
+      "desc": "Interactive tutorial for learning prompt engineering.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Prompts Chat (GitHub)",
+      "url": "https://github.com/f/prompts.chat",
+      "type": "GitHub",
+      "category": "Prompt Engineering",
+      "desc": "A collection of prompts for chatbots and LLMs.",
+      "level": "Beginner"
+    },
+    {
+      "title": "OpenAI Cookbook (GitHub)",
+      "url": "https://github.com/openai/openai-cookbook",
+      "type": "GitHub",
+      "category": "LLM Foundations",
+      "desc": "Example code and guides for accomplishing common tasks with the OpenAI API.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Voicebox (GitHub)",
+      "url": "https://github.com/jamiepine/voicebox",
+      "type": "GitHub",
+      "category": "Voice Agents",
+      "desc": "Voicebox: open-source voice AI tools and demos.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "Antigravity Awesome Skills (GitHub)",
+      "url": "https://github.com/sickn33/antigravity-awesome-skills",
+      "type": "GitHub",
+      "category": "Resources",
+      "desc": "A curated list of awesome skills for AI and beyond.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Prompt Engineering Roadmap (Structured Roadmap)",
+      "url": "https://roadmap.sh/prompt-engineering",
+      "type": "Roadmap",
+      "category": "Prompt Engineering",
+      "desc": "Structured roadmap for learning prompt engineering.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Introduction to filters and convolution | Computer vision from scratch series [Lecture 2]",
+      "url": "https://www.youtube.com/watch?v=NGeHyQm-0m8",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "Intro to filters and convolution in computer vision.",
+      "level": "Beginner"
+    },
+    {
+      "title": "UNet: the 2015 model with 118k+ citations that changed segmentation - And how GenAI brought it back",
+      "url": "https://www.youtube.com/watch?v=9KvngtchNww",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "UNet model and its impact on segmentation.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "Object Detection using R-CNN, Fast R-CNN, and Faster R-CNN | Computer Vision Hands-on Bootcamp",
+      "url": "https://www.youtube.com/watch?v=MKfyEe1ITeg",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "Object detection using R-CNN variants.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "Coding a Vision Transformer from scratch using PyTorch",
+      "url": "https://www.youtube.com/watch?v=DdsVwTodycw",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "Vision Transformer implementation in PyTorch.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "Introduction to Vision Transformer (ViT) | An image is worth 16x16 words | Computer Vision Series",
+      "url": "https://www.youtube.com/watch?v=aIi5FsdURUA",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "Intro to Vision Transformer (ViT) architecture.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "A Historical Journey through CNNs and Modern Computer Vision 2010–2025 | Computer Vision Series",
+      "url": "https://www.youtube.com/watch?v=SOC_rrcNeY4",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "History and evolution of CNNs and computer vision.",
+      "level": "Beginner"
+    },
+    {
+      "title": "ResNet Explained - Vanishing Gradients, Skip Connections, and Code Implementation | Computer Vision",
+      "url": "https://www.youtube.com/watch?v=OE3XNTBy0hA",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "ResNet architecture and implementation details.",
+      "level": "Intermediate"
+    },
+    {
+      "title": "Neural network for image classification | Computer Vision from Scratch series [Lecture 4]",
+      "url": "https://www.youtube.com/watch?v=uLLjjjiBMcc",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "Building neural networks for image classification.",
+      "level": "Beginner"
+    },
+    {
+      "title": "A beginners introduction to YOLO | You Only Look Once | Computer Vision",
+      "url": "https://www.youtube.com/watch?v=lcArnTfpPBM",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "YOLO object detection explained for beginners.",
+      "level": "Beginner"
+    },
+    {
+      "title": "Build and deploy Computer Vision Model for fall detection | Roboflow + Streamlit | Physical Safety",
+      "url": "https://www.youtube.com/watch?v=XPiMpURCh1M",
+      "type": "YouTube",
+      "category": "Computer Vision",
+      "desc": "Build and deploy a fall detection model using Roboflow and Streamlit.",
+      "level": "Intermediate"
+    },
   {
     "title": "Document Analysis using LLMs with Python",
     "url": "https://amanxai.com/2024/10/21/document-analysis-using-llms-with-python/",

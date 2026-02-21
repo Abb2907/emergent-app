@@ -14,6 +14,8 @@ db.exec(`
     password TEXT,
     name TEXT,
     avatar_url TEXT,
+    reset_token TEXT,
+    reset_token_expiry DATETIME,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     last_login DATETIME DEFAULT CURRENT_TIMESTAMP
   );
@@ -26,6 +28,14 @@ try {
   // Column likely already exists
 }
 
+// Migration: Add reset_token columns if they don't exist
+try {
+  db.exec('ALTER TABLE users ADD COLUMN reset_token TEXT');
+  db.exec('ALTER TABLE users ADD COLUMN reset_token_expiry DATETIME');
+} catch (error) {
+  // Columns likely already exist
+}
+
 export interface User {
   id: number;
   github_id?: string;
@@ -34,6 +44,8 @@ export interface User {
   password?: string;
   name?: string;
   avatar_url?: string;
+  reset_token?: string;
+  reset_token_expiry?: string;
   created_at: string;
   last_login: string;
 }
@@ -58,6 +70,21 @@ export const createUser = (user: Partial<User>) => {
 export const getUserByEmail = (email: string): User | undefined => {
   const stmt = db.prepare('SELECT * FROM users WHERE email = ?');
   return stmt.get(email) as User | undefined;
+};
+
+export const getUserByResetToken = (token: string): User | undefined => {
+  const stmt = db.prepare('SELECT * FROM users WHERE reset_token = ? AND reset_token_expiry > CURRENT_TIMESTAMP');
+  return stmt.get(token) as User | undefined;
+};
+
+export const updateUserResetToken = (id: number, token: string | null, expiry: string | null) => {
+  const stmt = db.prepare('UPDATE users SET reset_token = ?, reset_token_expiry = ? WHERE id = ?');
+  stmt.run(token, expiry, id);
+};
+
+export const updateUserPassword = (id: number, password: string) => {
+  const stmt = db.prepare('UPDATE users SET password = ?, reset_token = NULL, reset_token_expiry = NULL WHERE id = ?');
+  stmt.run(password, id);
 };
 
 export const getUserByGithubId = (githubId: string): User | undefined => {

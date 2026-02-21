@@ -6,8 +6,9 @@ import axios from 'axios';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { createUser, getUserByGithubId, getUserByGoogleId, getUserById, updateUserLogin, getUserByEmail } from './server/db.ts';
+import { createUser, getUserByGithubId, getUserByGoogleId, getUserById, updateUserLogin, getUserByEmail, updateUserResetToken, getUserByResetToken, updateUserPassword } from './server/db.ts';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 dotenv.config();
 
@@ -29,6 +30,17 @@ app.post('/api/auth/signup', async (req, res) => {
   
   if (!email || !password || !name) {
     return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email format' });
+  }
+
+  // Validate password strength
+  if (password.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters long' });
   }
 
   try {
@@ -54,7 +66,7 @@ app.post('/api/auth/signup', async (req, res) => {
 });
 
 app.post('/api/auth/login', async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberMe } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({ error: 'Missing email or password' });
@@ -73,10 +85,69 @@ app.post('/api/auth/login', async (req, res) => {
 
     updateUserLogin(user.id);
     req.session!.userId = user.id;
+    
+    // Extend session if rememberMe is true (30 days)
+    if (rememberMe) {
+      req.sessionOptions.maxAge = 30 * 24 * 60 * 60 * 1000;
+    } else {
+      req.sessionOptions.maxAge = 24 * 60 * 60 * 1000;
+    }
+
     res.json({ user: { id: user.id, name: user.name, email: user.email, avatar_url: user.avatar_url } });
   } catch (error) {
     console.error('Login Error:', error);
     res.status(500).json({ error: 'Login failed' });
+  }
+});
+
+app.post('/api/auth/forgot-password', async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ error: 'Email is required' });
+
+  try {
+    const user = getUserByEmail(email);
+    if (!user) {
+      // Don't reveal user existence
+      return res.json({ message: 'If an account exists, a reset link has been sent.' });
+    }
+
+    const token = crypto.randomBytes(32).toString('hex');
+    const expiry = new Date(Date.now() + 3600000).toISOString(); // 1 hour
+
+    updateUserResetToken(user.id, token, expiry);
+
+    // In a real app, send email here. For now, log to console.
+    console.log(`[DEV] Password reset token for ${email}: ${token}`);
+    console.log(`[DEV] Reset Link: ${APP_URL}/reset-password?token=${token}`);
+
+    res.json({ message: 'If an account exists, a reset link has been sent.', devToken: token });
+  } catch (error) {
+    console.error('Forgot Password Error:', error);
+    res.status(500).json({ error: 'Failed to process request' });
+  }
+});
+
+app.post('/api/auth/reset-password', async (req, res) => {
+  const { token, newPassword } = req.body;
+  if (!token || !newPassword) return res.status(400).json({ error: 'Missing token or password' });
+
+  if (newPassword.length < 8) {
+    return res.status(400).json({ error: 'Password must be at least 8 characters long' });
+  }
+
+  try {
+    const user = getUserByResetToken(token);
+    if (!user) {
+      return res.status(400).json({ error: 'Invalid or expired token' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    updateUserPassword(user.id, hashedPassword);
+
+    res.json({ message: 'Password updated successfully' });
+  } catch (error) {
+    console.error('Reset Password Error:', error);
+    res.status(500).json({ error: 'Failed to reset password' });
   }
 });
 

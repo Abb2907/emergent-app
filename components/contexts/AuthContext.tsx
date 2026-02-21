@@ -70,7 +70,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(data.user);
       setIsSignInOpen(false);
     } else {
-      throw new Error('Invalid credentials');
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Invalid credentials');
     }
   };
 
@@ -86,7 +87,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(data.user);
       setIsSignInOpen(false);
     } else {
-      throw new Error('Signup failed');
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Signup failed');
     }
   };
 

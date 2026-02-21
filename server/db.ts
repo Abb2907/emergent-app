@@ -43,7 +43,15 @@ export const createUser = (user: Partial<User>) => {
     INSERT INTO users (github_id, google_id, email, password, name, avatar_url)
     VALUES (@github_id, @google_id, @email, @password, @name, @avatar_url)
   `);
-  const info = stmt.run(user);
+  const info = stmt.run({
+    github_id: null,
+    google_id: null,
+    email: null,
+    password: null,
+    name: null,
+    avatar_url: null,
+    ...user
+  });
   return { ...user, id: info.lastInsertRowid };
 };
 

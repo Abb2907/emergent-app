@@ -30,8 +30,14 @@ app.use(session({
   maxAge: 24 * 60 * 60 * 1000 // 24 hours
 }));
 
+// Health Check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Email/Password Auth
 app.post('/api/auth/signup', async (req, res) => {
+  console.log('Signup request body:', req.body);
   const { name, email, password } = req.body;
   
   if (!email || !password || !name) {

@@ -35,11 +35,31 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [enrolledPaths, setEnrolledPaths] = useState<string[]>([]);
   const [badges, setBadges] = useState<Badge[]>(BADGES);
 
+  const parseApiResponse = async <T,>(response: Response): Promise<T> => {
+    const contentType = response.headers.get('content-type') || '';
+    const bodyText = await response.text();
+
+    if (!bodyText) {
+      return {} as T;
+    }
+
+    if (!contentType.includes('application/json')) {
+      const preview = bodyText.slice(0, 120).replace(/\s+/g, ' ').trim();
+      throw new Error(`Unexpected API response (${response.status}): ${preview}`);
+    }
+
+    try {
+      return JSON.parse(bodyText) as T;
+    } catch {
+      throw new Error('Received malformed JSON from the server.');
+    }
+  };
+
   const checkAuth = async () => {
     try {
       const response = await fetch('/api/auth/me');
       if (response.ok) {
-        const data = await response.json();
+        const data = await parseApiResponse<{ user: User }>(response);
         setUser(data.user);
       }
     } catch (error) {
@@ -68,11 +88,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
     
     if (response.ok) {
-      const data = await response.json();
+      const data = await parseApiResponse<{ user: User }>(response);
       setUser(data.user);
       setIsSignInOpen(false);
     } else {
-      const errorData = await response.json();
+      const errorData = await parseApiResponse<{ error?: string }>(response);
       throw new Error(errorData.error || 'Invalid credentials');
     }
   };
@@ -85,11 +105,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
 
     if (response.ok) {
-      const data = await response.json();
+      const data = await parseApiResponse<{ user: User }>(response);
       setUser(data.user);
       setIsSignInOpen(false);
     } else {
-      const errorData = await response.json();
+      const errorData = await parseApiResponse<{ error?: string }>(response);
       throw new Error(errorData.error || 'Signup failed');
     }
   };
@@ -102,7 +122,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await parseApiResponse<{ error?: string }>(response);
       throw new Error(errorData.error || 'Failed to request password reset');
     }
   };
@@ -115,7 +135,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await parseApiResponse<{ error?: string }>(response);
       throw new Error(errorData.error || 'Failed to reset password');
     }
   };
@@ -123,7 +143,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (provider: 'github' | 'google') => {
     try {
       const response = await fetch(`/api/auth/${provider}`);
-      const { url } = await response.json();
+      const { url } = await parseApiResponse<{ url: string }>(response);
       
       const width = 600;
       const height = 700;

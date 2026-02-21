@@ -1,8 +1,17 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 
-const dbPath = path.resolve('users.db');
-const db = new Database(dbPath);
+const dbPath = path.resolve(process.cwd(), 'users.db');
+let db: Database.Database;
+
+try {
+  db = new Database(dbPath);
+} catch (error) {
+  console.error('Failed to initialize database:', error);
+  // Fallback to in-memory database if file access fails
+  console.warn('Falling back to in-memory database');
+  db = new Database(':memory:');
+}
 
 // Initialize database
 db.exec(`
